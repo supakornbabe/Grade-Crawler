@@ -1,15 +1,15 @@
 import requests
-import imgkit
+#import imgkit
 import time
 import os
 from lxml import html
 from bs4 import BeautifulSoup
 from html_table_extractor.extractor import Extractor
 from line_notify import LineNotify
-
+KU_id = 'tmp'
+KU_pass = 'tmp'
 Line_token = ''
-KU_id = ''
-KU_pass = ''
+
 
 def main():
     payload = {
@@ -27,12 +27,49 @@ def main():
     soup_table = BeautifulSoup(
         str(soup.find_all("table", class_="table")), 'lxml')
     tag = soup_table.table
-    imgkit.from_string(str(tag), 'GRADEKUout.jpg')
+    """     oldtag = tag.text
+    #tag = tag.replace(">", "> ")
+    for t in tag:
+        a = " "+t.string
+        t.text = (a)
+        #print(a) """
+
+    """ imgkit.from_string(str(tag), 'GRADEKUout.jpg')
     notify = LineNotify(Line_token)
-    notify.send("Grade", image_path='./GRADEKUout.jpg')
-    os.remove("GRADEKUout.jpg")
+    notify.send("Result", image_path='./GRADEKUout.jpg')
+    os.remove("GRADEKUout.jpg") """
+    notify = LineNotify(Line_token)
+    tag = tag.text
+    tag = tag.split("Second Semester 2017")[1]
+    tag = tag.replace("CodeCourse", "")
+    tag = tag.replace("Course", "")
+    tag = tag.replace("TitleGradeCredit", "")
+    tag = tag.replace("01", "\n01")
+    tag = tag.replace("sem. G.P.A.", "\nsem. G.P.A.")
+    tag = tag.replace("cum. G.P.A.", "\ncum. G.P.A.")
+    check = False
+    for t in tag.split("\n"):
+        check = False
+        revt = ''.join(reversed(t))
+        o = 0
+        for i in revt:
+            if o == 1:
+                if i == 'N':
+                    check = True
+                break
+            o += 1
+        if check:
+            continue
+
+        if str(t)[0] == '0':
+            print(t)
+            notify.send(t)
+            print()
+
 
 if __name__ == '__main__':
+    KU_id = input("KU_id: ")
+    KU_pass = input("KU_pass: ")
     while (True):
         main()
         time.sleep(60)
