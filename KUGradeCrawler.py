@@ -1,5 +1,4 @@
 import requests
-#import imgkit
 import time
 import os
 from lxml import html
@@ -9,7 +8,6 @@ from line_notify import LineNotify
 KU_id = 'tmp'
 KU_pass = 'tmp'
 Line_token = ''
-
 
 def main():
     payload = {
@@ -27,17 +25,6 @@ def main():
     soup_table = BeautifulSoup(
         str(soup.find_all("table", class_="table")), 'lxml')
     tag = soup_table.table
-    """     oldtag = tag.text
-    #tag = tag.replace(">", "> ")
-    for t in tag:
-        a = " "+t.string
-        t.text = (a)
-        #print(a) """
-
-    """ imgkit.from_string(str(tag), 'GRADEKUout.jpg')
-    notify = LineNotify(Line_token)
-    notify.send("Result", image_path='./GRADEKUout.jpg')
-    os.remove("GRADEKUout.jpg") """
     notify = LineNotify(Line_token)
     tag = tag.text
     tag = tag.split("Second Semester 2017")[1]
@@ -65,7 +52,6 @@ def main():
             print(t)
             notify.send(t)
             print()
-
 
 if __name__ == '__main__':
     KU_id = input("KU_id: ")
