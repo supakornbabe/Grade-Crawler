@@ -5,6 +5,7 @@ from lxml import html
 from bs4 import BeautifulSoup
 from html_table_extractor.extractor import Extractor
 from line_notify import LineNotify
+import getpass
 KU_id = 'tmp'
 KU_pass = 'tmp'
 Line_token = ''
@@ -55,7 +56,7 @@ def main():
 
 if __name__ == '__main__':
     KU_id = input("KU_id: ")
-    KU_pass = input("KU_pass: ")
+    KU_pass = getpass.getpass("KU_pass: ")
     while (True):
         main()
         time.sleep(60)
