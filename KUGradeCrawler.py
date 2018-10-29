@@ -16,11 +16,11 @@ def main():
         "form_password": KU_pass,
     }
     session_requests = requests.session()
-    login_url = "https://std.regis.ku.ac.th/_Login.php"
+    login_url = "https://stdregis.ku.ac.th/_Login.php"
     result = session_requests.get(login_url)
     result = session_requests.post(
         login_url, data=payload, headers=dict(referer=login_url))
-    url = 'https://std.regis.ku.ac.th/_Student_RptKu.php?mode=KU20'
+    url = 'https://stdregis.ku.ac.th/_Student_RptKu.php?mode=KU20'
     result = session_requests.get(url, headers=dict(referer=url))
     soup = BeautifulSoup(result.text, 'html.parser')
     soup_table = BeautifulSoup(
