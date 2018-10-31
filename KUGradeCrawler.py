@@ -5,6 +5,7 @@ from lxml import html
 from bs4 import BeautifulSoup
 from html_table_extractor.extractor import Extractor
 from line_notify import LineNotify
+import getpass
 KU_id = 'tmp'
 KU_pass = 'tmp'
 Line_token = ''
@@ -15,11 +16,11 @@ def main():
         "form_password": KU_pass,
     }
     session_requests = requests.session()
-    login_url = "https://std.regis.ku.ac.th/_Login.php"
+    login_url = "https://stdregis.ku.ac.th/_Login.php"
     result = session_requests.get(login_url)
     result = session_requests.post(
         login_url, data=payload, headers=dict(referer=login_url))
-    url = 'https://std.regis.ku.ac.th/_Student_RptKu.php?mode=KU20'
+    url = 'https://stdregis.ku.ac.th/_Student_RptKu.php?mode=KU20'
     result = session_requests.get(url, headers=dict(referer=url))
     soup = BeautifulSoup(result.text, 'html.parser')
     soup_table = BeautifulSoup(
@@ -55,7 +56,7 @@ def main():
 
 if __name__ == '__main__':
     KU_id = input("KU_id: ")
-    KU_pass = input("KU_pass: ")
+    KU_pass = getpass.getpass("KU_pass: ")
     while (True):
         main()
         time.sleep(60)
